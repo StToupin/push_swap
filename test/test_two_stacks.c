@@ -50,7 +50,6 @@ void		print_op_list(t_cll *op_list)
 void		test_two_stacks(int n, char **s)
 {
 	t_two_stacks	*stacks;
-	t_two_stacks	*stacks_copy;
 	t_allocated		*a_list;
 	int				cleaned;
 
@@ -59,10 +58,6 @@ void		test_two_stacks(int n, char **s)
 	ft_putstr_fd("Generating stacks from arguments\n", 1);
 	stacks = two_stacks_from_strings(&a_list, n, s);
 	two_stacks_print(stacks, 1);
-	ft_putstr_fd("Cloning stacks\n", 1);
-	stacks_copy = two_stacks_clone(&a_list, stacks);
-	two_stacks_print(stacks_copy, 1);
-	two_stacks_free(&a_list, &stacks_copy);
 	test_op(&a_list, stacks);
 	ft_putstr_fd("Operation history: ", 1);
 	print_op_list(stacks->op);

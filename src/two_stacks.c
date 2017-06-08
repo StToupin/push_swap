@@ -71,22 +71,6 @@ t_two_stacks	*two_stacks_from_strings(t_allocated **a_list, int n, char **s)
 	return (stacks);
 }
 
-t_two_stacks	*two_stacks_clone(t_allocated **a_list, t_two_stacks *src)
-{
-	t_two_stacks	*dest;
-
-	dest = (t_two_stacks*)my_malloc(a_list, sizeof(t_two_stacks));
-	if (dest)
-	{
-		dest->a = cll_clone(a_list, src->a);
-		dest->b = cll_clone(a_list, src->b);
-		dest->op = cll_clone(a_list, src->op);
-		if (!dest->a || !dest->b || !dest->op)
-			two_stacks_free(a_list, &dest);
-	}
-	return (dest);
-}
-
 void			two_stacks_print(t_two_stacks *stacks, int fd)
 {
 	if (stacks == NULL)

@@ -41,7 +41,6 @@ typedef struct	s_op_assoc
 void			two_stacks_free(t_allocated **a_list, t_two_stacks **stacks);
 t_two_stacks	*two_stacks_create(t_allocated **a_list);
 t_two_stacks	*two_stacks_from_strings(t_allocated **a_list, int n, char **s);
-t_two_stacks	*two_stacks_clone(t_allocated **a_list, t_two_stacks *src);
 void			two_stacks_print(t_two_stacks *stacks, int fd);
 
 /*
@@ -82,6 +81,12 @@ void			op_rrr(t_two_stacks *stacks);
 t_op_assoc		get_op_assoc(int i);
 int				stacks_do_op(t_allocated **a_list, t_two_stacks *stacks,
 																	t_op op);
+
+/*
+** From print_solution.c
+*/
+
+void			print_solution(t_two_stacks	*stacks, int fd);
 
 /*
 ** From algo.c

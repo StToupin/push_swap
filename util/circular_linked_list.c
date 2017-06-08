@@ -91,34 +91,3 @@ void		cll_free(t_allocated **a_list, t_cll **cll)
 	my_malloc_free(a_list, *cll);
 	*cll = NULL;
 }
-
-t_cll	*cll_clone(t_allocated **a_list, t_cll *src)
-{
-	t_cll		*dest;
-	t_cll_elem	*elem;
-	t_cll_elem	*new_elem;
-	int			i;
-
-	if (src == NULL)
-		return (NULL);
-	dest = cll_create(a_list);
-	if (dest && src->n > 0)
-	{
-		elem = src->top->up;
-		i = 0;
-		while (i < src->n)
-		{
-			new_elem = cll_elem_create(a_list, elem->value);
-			if (new_elem)
-				cll_push(dest, new_elem);
-			else
-			{
-				cll_free(a_list, &dest);
-				break ;
-			}
-			elem = elem->up;
-			i++;
-		}
-	}
-	return (dest);
-};
