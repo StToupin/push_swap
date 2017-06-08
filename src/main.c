@@ -10,11 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft.h"
+#include "my_malloc.h"
 #include "test.h"
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	test_circular_linked_list();
-	test_two_stacks(argc - 1, argv + 1);
+	//test_circular_linked_list();
+	//test_two_stacks(argc - 1, argv + 1);
+	t_allocated		*a_list;
+	t_two_stacks	*stacks;
+	int				cleaned;
+
+	my_malloc_init(&a_list);
+	stacks = two_stacks_from_strings(&a_list, argc - 1, argv + 1);
+	solve_big(&a_list, stacks);
+	two_stacks_free(&a_list, &stacks);
+	cleaned = my_malloc_cleanup(&a_list);
+	ft_putnbr_fd(cleaned, 1);
+	ft_putstr_fd(" freed pointer(s).\n\n", 1);
 	return (0);
 }

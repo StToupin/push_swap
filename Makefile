@@ -1,5 +1,10 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -g
+
+ifeq ($(DEBUG),yes)
+    CFLAGS = -Wall -Wextra -O0 -g
+else
+    CFLAGS = -Wall -Wextra -O2
+endif
 
 NAME = push_swap
 
@@ -8,7 +13,7 @@ SRC_TEST = test_circular_linked_list.c test_op.c test_two_stacks.c
 
 SRC = $(SRC_UTIL) $(SRC_TEST) two_stacks.c two_stacks_do_op.c \
 		two_stacks_op_s.c two_stacks_op_p.c two_stacks_op_r.c two_stacks_op_rr.c \
-		main.c
+		algo.c algo2.c main.c
 OBJ = $(SRC:.c=.o)
 
 VPATH = test util src

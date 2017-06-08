@@ -48,28 +48,24 @@ t_two_stacks	*two_stacks_from_strings(t_allocated **a_list, int n, char **s)
 	t_cll_elem		*elem;
 	int				i;
 	int				value;
-	int				err;
 
 	stacks = two_stacks_create(a_list);
 	if (stacks)
 	{
-		i = 0;
-		while (i < n)
+		i = -1;
+		while (++i < n)
 		{
-			err = ft_str_to_int(s[n - i - 1], &value);
-			if (err)
+			if (ft_str_to_int(s[n - i - 1], &value))
 			{
 				two_stacks_free(a_list, &stacks);
 				break ;
 			}
-			elem = cll_elem_create(a_list, value);
-			if (!elem)
+			if (!(elem = cll_elem_create(a_list, value)))
 			{
 				two_stacks_free(a_list, &stacks);
 				break ;
 			}
 			cll_push(stacks->a, elem);
-			i++;
 		}
 	}
 	return (stacks);

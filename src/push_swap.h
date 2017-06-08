@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP
-# define PUSH_SWAP
+#ifndef PUSH_SWAP_H
+# define PUSH_SWAP_H
 # include "circular_linked_list.h"
 
 typedef enum	e_op
@@ -79,7 +79,33 @@ void			op_rrr(t_two_stacks *stacks);
 ** From two_stacks_do_op.c
 */
 
-t_op_assoc	get_op_assoc(int i);
-int			stacks_do_op(t_allocated **a_list, t_two_stacks *stacks, t_op op);
+t_op_assoc		get_op_assoc(int i);
+int				stacks_do_op(t_allocated **a_list, t_two_stacks *stacks,
+																	t_op op);
+
+/*
+** From algo.c
+*/
+
+typedef struct	s_route
+{
+	int	a;
+	int	b;
+	int len;
+}				t_route;
+
+typedef struct	s_index_value
+{
+	int	index;
+	int	value;
+}				t_index_value;
+
+t_route			find_best_route(t_two_stacks *stacks, int i_a, int val_a);
+
+/*
+** From algo2.c
+*/
+
+void			solve_big(t_allocated **a_list, t_two_stacks *stacks);
 
 #endif
