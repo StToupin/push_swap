@@ -32,7 +32,7 @@ void		print_op_list(t_cll *op_list)
 		while (1)
 		{
 			op_assoc =get_op_assoc(j);
-			if (op_assoc.op == O_END)
+			if (op_assoc.op == O_UNK)
 				break ;
 			if (op_assoc.op == elem->value)
 			{

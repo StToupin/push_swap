@@ -27,33 +27,42 @@ t_op_assoc	get_op_assoc(int i)
 		{O_RRA, "rra", &op_rra, &op_ra},
 		{O_RRB, "rrb", &op_rrb, &op_rb},
 		{O_RRR, "rrr", &op_rrr, &op_rr},
-		{O_END, NULL, NULL, NULL}
+		{O_UNK, NULL, NULL, NULL}
 	};
 
 	return (op_assoc[i]);
+}
+
+int			stacks_do_op_assoc(t_allocated **a_list, t_two_stacks *stacks,
+														t_op_assoc *op_assoc)
+{
+	t_cll_elem	*elem;
+
+	(*(op_assoc->f))(stacks);
+	elem = cll_elem_create(a_list, op_assoc->op);
+	if (elem)
+	{
+		cll_push(stacks->op, elem);
+		return (0);
+	}
+	else
+		return (1);
 }
 
 int			stacks_do_op(t_allocated **a_list, t_two_stacks *stacks, t_op op)
 {
 	int			i;
 	t_op_assoc	op_assoc;
-	t_cll_elem	*elem;
 
 	i = 0;
 	while (1)
 	{
 		op_assoc = get_op_assoc(i);
-		if (op_assoc.op == O_END)
+		if (op_assoc.op == O_UNK)
 			return (1);
 		if (op_assoc.op == op)
 			break ;
 		i++;
 	}
-	(*(op_assoc.f))(stacks);
-	elem = cll_elem_create(a_list, op);
-	if (elem)
-		cll_push(stacks->op, elem);
-	else
-		return (1);
-	return (0);
+	return (stacks_do_op_assoc(a_list, stacks, &op_assoc));
 }

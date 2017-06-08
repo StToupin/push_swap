@@ -84,3 +84,24 @@ void			two_stacks_print(t_two_stacks *stacks, int fd)
 		ft_putstr_fd("\n", fd);
 	}
 }
+
+int				two_stacks_is_sorted(t_two_stacks *stacks)
+{
+	t_cll_elem	*elem;
+	int			i;
+
+	if (stacks->b->n > 0)
+		return (0);
+	if (stacks->a->n < 2)
+		return (1);
+	elem = stacks->a->top->up;
+	i = 0;
+	while (i < stacks->a->n - 1)
+	{
+		if (elem->value < elem->up->value)
+			return (0);
+		elem = elem->up;
+		i++;
+	}
+	return (1);
+}

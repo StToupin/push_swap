@@ -34,13 +34,12 @@ void	print_solution(t_two_stacks	*stacks, int fd)
 				ft_putstr_fd("\n", fd);
 				break ;
 			}
-			if (op_assoc.op == O_END)
+			if (op_assoc.op == O_UNK)
 			{
 				ft_putstr_fd("UNKNOWN\n", fd);
 				break ;
 			}
 		}
 		elem = elem->up;
-		i++;
 	}
 }

@@ -16,5 +16,6 @@
 int		ft_putstr_fd(char *str, int fd);
 void	ft_putnbr_fd(int n, int fd);
 int		ft_str_to_int(char *str, int *nbr);
+int		ft_strcmp(char *s1, char *s2);
 
 #endif

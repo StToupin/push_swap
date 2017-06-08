@@ -75,3 +75,23 @@ int			ft_str_to_int(char *str, int *nbr)
 	}
 	return (0);
 }
+
+int			ft_strcmp(char *s1, char *s2)
+{
+	unsigned char	c1;
+	unsigned char	c2;
+	size_t			i;
+
+	i = 0;
+	while (s1[i] != '\0' && s2[i] != '\0')
+	{
+		c1 = (unsigned char)s1[i];
+		c2 = (unsigned char)s2[i];
+		if (c1 != c2)
+			return (c1 - c2);
+		i++;
+	}
+	c1 = (unsigned char)s1[i];
+	c2 = (unsigned char)s2[i];
+	return (c1 - c2);
+}

@@ -86,8 +86,24 @@ static int			expand_str(t_allocated **a_list,
 	return (keep_on_reading);
 }
 
+int					clean(t_allocated **a_list, t_slist *slist)
+{
+	t_slist_elem	*element;
+	t_slist_elem	*next;
+
+	element = slist->first;
+	while (element != NULL)
+	{
+		next = element->next;
+		my_malloc_free(a_list, element);
+		element = next;
+	}
+	return (1);
+}
+
 int					get_next_line(t_allocated **a_list,
-									const int fd, char **line)
+									const int fd, char **line,
+									int *len)
 {
 	static t_openfile	*oflist = NULL;
 	t_openfile			*of;
@@ -103,14 +119,15 @@ int					get_next_line(t_allocated **a_list,
 	while (of->eof == 0 && expand_str(a_list, &slist, of))
 	{
 		if ((of->buf_size = read(fd, of->buf, BUFF_SIZE)) == -1)
-			return (-1);
+			return (-clean(a_list, &slist));
 		of->buf_pos = of->buf;
 		of->eof = (of->buf_size == 0);
 	}
 	if (slist.len == 0 && of->eof == 0)
-		return (-1);
+		return (-clean(a_list, &slist));
 	if (of->eof && slist.len == 0)
-		return (del_openfile(a_list, &oflist, fd));
+		return (clean(a_list, &slist) && del_openfile(a_list, &oflist, fd));
+	*len = slist.total_len;
 	*line = slist_join(a_list, &slist);
 	return (1);
 }

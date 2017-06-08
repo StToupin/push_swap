@@ -28,7 +28,7 @@ int	main(int argc, char **argv)
 	print_solution(stacks, 1);
 	two_stacks_free(&a_list, &stacks);
 	cleaned = my_malloc_cleanup(&a_list);
-	ft_putnbr_fd(cleaned, 1);
-	ft_putstr_fd(" freed pointer(s).\n", 1);
+	//ft_putnbr_fd(cleaned, 1);
+	//ft_putstr_fd(" freed pointer(s).\n", 1);
 	return (0);
 }

@@ -9,7 +9,8 @@ endif
 NAME = push_swap
 NAME_CHECKER = checker
 
-SRC_UTIL = my_malloc.c ft.c circular_linked_list.c circular_linked_list_op.c
+SRC_UTIL = my_malloc.c ft.c circular_linked_list.c circular_linked_list_op.c \
+			slist.c get_next_line.c
 SRC_TEST = test_circular_linked_list.c test_op.c test_two_stacks.c
 SRC_STACKS = two_stacks.c two_stacks_do_op.c \
         two_stacks_op_s.c two_stacks_op_p.c \
@@ -17,10 +18,9 @@ SRC_STACKS = two_stacks.c two_stacks_do_op.c \
 		print_solution.c
 
 SRC = $(SRC_UTIL) $(SRC_TEST) $(SRC_STACKS) algo.c algo2.c main.c
-SRC_CHECKER = $(SRC_UTIL) $(SRC_TEST) $(SRC_STACKS) s_list.c get_next_line.c \
-				checker.c
+SRC_CHECKER = $(SRC_UTIL) $(SRC_TEST) $(SRC_STACKS) checker.c
 OBJ = $(SRC:.c=.o)
-OBJ_CHECKER = $(SRC:.c=.o)
+OBJ_CHECKER = $(SRC_CHECKER:.c=.o)
 
 VPATH = test util src
 IFLAGS = -Itest -Iutil -Isrc

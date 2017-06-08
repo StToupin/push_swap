@@ -27,6 +27,7 @@ typedef struct	s_openfile
 	struct s_openfile	*next;
 }				t_openfile;
 
-int				get_next_line(t_allocated **a_list, const int fd, char **line);
+int				get_next_line(t_allocated **a_list, const int fd, char **line,
+																	int *len);
 
 #endif
