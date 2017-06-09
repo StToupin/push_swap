@@ -62,6 +62,7 @@ void		cll_push(t_cll *cll, t_cll_elem *elem)
 t_cll_elem	*cll_pop(t_cll *cll)
 {
 	t_cll_elem	*elem;
+
 	if (cll->n == 0)
 		return (NULL);
 	else if (cll->n == 1)

@@ -1,3 +1,7 @@
 /push_swap
 /checker
 /*.o
+/*.py
+/test.sh
+/tester
+/*.pyc

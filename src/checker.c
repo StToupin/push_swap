@@ -16,7 +16,8 @@
 #include "get_next_line.h"
 #include "ft.h"
 
-int	do_op(t_allocated **a_list, t_two_stacks *stacks, char *op_name)
+static int	do_op(t_allocated **a_list, t_two_stacks *stacks, char *op_name,
+																	int verbose)
 {
 	int			n_op;
 	t_op_assoc	op_assoc;
@@ -29,18 +30,23 @@ int	do_op(t_allocated **a_list, t_two_stacks *stacks, char *op_name)
 			return (1);
 		if (ft_strcmp(op_name, op_assoc.name) == 0)
 		{
-			ft_putstr_fd("Doing ", 1);
-			ft_putstr_fd(op_name, 1);
+			if (verbose)
+				ft_putstr_fd("Doing ", 1);
+			if (verbose)
+				ft_putstr_fd(op_name, 1);
 			if (stacks_do_op_assoc(a_list, stacks, &op_assoc))
 				return (1);
-			ft_putstr_fd(": ", 1);
-			two_stacks_print(stacks, 1);
+			if (verbose)
+				ft_putstr_fd(": ", 1);
+			if (verbose)
+				two_stacks_print(stacks, 1);
 		}
 	}
 	return (0);
 }
 
-int	execute_program(t_allocated **a_list, t_two_stacks *stacks)
+static int	execute_program(t_allocated **a_list, t_two_stacks *stacks,
+																	int verbose)
 {
 	char	*line;
 	int		len;
@@ -51,7 +57,7 @@ int	execute_program(t_allocated **a_list, t_two_stacks *stacks)
 		if (len == 0)
 			break ;
 		else if (len == 2 || len == 3)
-			do_op(a_list, stacks, line);
+			do_op(a_list, stacks, line, verbose);
 		else
 		{
 			my_malloc_free(a_list, line);
@@ -63,29 +69,44 @@ int	execute_program(t_allocated **a_list, t_two_stacks *stacks)
 	return (0);
 }
 
-int	main(int argc, char **argv)
+static void	push_swap(t_allocated **a_list, int argc, char **argv, int verbose)
 {
-	t_allocated		*a_list;
 	t_two_stacks	*stacks;
-	int				cleaned;
 
-	my_malloc_init(&a_list);
-	stacks = two_stacks_from_strings(&a_list, argc - 1, argv + 1);
+	stacks = two_stacks_from_strings(a_list, argc - 1, argv + 1);
 	if (stacks)
 	{
-		if (execute_program(&a_list, stacks))
-			ft_putstr_fd("ERROR1\n", 2);//
+		if (execute_program(a_list, stacks, verbose))
+			ft_putstr_fd("ERROR\n", 2);
+		else if (two_stacks_is_sorted(stacks))
+			ft_putstr_fd("OK\n", 1);
 		else
-			if (two_stacks_is_sorted(stacks))
-				ft_putstr_fd("OK\n", 1);
-			else
-				ft_putstr_fd("KO\n", 1);
+			ft_putstr_fd("KO\n", 1);
 	}
 	else
-		ft_putstr_fd("ERROR2\n", 2);//
-	two_stacks_free(&a_list, &stacks);
+		ft_putstr_fd("ERROR\n", 2);
+	two_stacks_free(a_list, &stacks);
+}
+
+int			main(int argc, char **argv)
+{
+	t_allocated		*a_list;
+	int				cleaned;
+	int				verbose;
+
+	verbose = 0;
+	if (argc > 1 && ft_strcmp(argv[1], "-v") == 0)
+	{
+		verbose = 1;
+		argc -= 1;
+		argv += 1;
+	}
+	my_malloc_init(&a_list);
+	push_swap(&a_list, argc, argv, verbose);
 	cleaned = my_malloc_cleanup(&a_list);
-	ft_putnbr_fd(cleaned, 1);
-	ft_putstr_fd(" freed pointer(s).\n", 1);
+	if (verbose)
+		ft_putnbr_fd(cleaned, 1);
+	if (verbose)
+		ft_putstr_fd(" freed pointer(s).\n", 1);
 	return (0);
 }

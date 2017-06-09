@@ -27,8 +27,8 @@ static int		calc_route_len(int dist_a, int dist_b)
 		return (-dist_b);
 	else
 	{
-		dist = (dist_a > 0) ? dist_a : (-dist_a);
-		dist += (dist_b > 0) ? dist_b : (-dist_b);
+		dist = (dist_a >= 0) ? dist_a : (-dist_a);
+		dist += (dist_b >= 0) ? dist_b : (-dist_b);
 		return (dist);
 	}
 }
@@ -84,8 +84,8 @@ static void		john_b_route(t_cll *stack_b, int val_a, int dist_b[2])
 		i = max_b.index + 1;
 	else
 		i = place_to_insert(stack_b, val_a) + 1;
-	dist_b[0] = stack_b->n - i;
-	dist_b[1] = -i;
+	dist_b[0] = -i;
+	dist_b[1] = stack_b->n - i;
 }
 
 t_route			find_best_route(t_two_stacks *stacks, int i_a, int val_a)
@@ -98,7 +98,7 @@ t_route			find_best_route(t_two_stacks *stacks, int i_a, int val_a)
 	if (stacks->b->n == 0)
 		return ((t_route){0, 0, 0});
 	d_a[0] = stacks->a->n - i_a - 1;
-	d_a[1] = -stacks->a->n - 1;
+	d_a[1] = -i_a - 1;
 	john_b_route(stacks->b, val_a, d_b);
 	route[0] = (t_route){d_a[0], d_b[0], calc_route_len(d_a[0], d_b[0])};
 	route[1] = (t_route){d_a[0], d_b[1], calc_route_len(d_a[0], d_b[1])};

@@ -69,7 +69,7 @@ static void		push_back(t_allocated **a_list, t_two_stacks *stacks)
 
 	elem = stacks->b->top->up;
 	max_b = (t_index_value){0, elem->value};
-	i = 0;
+	i = -1;
 	while (++i < stacks->b->n)
 	{
 		if (elem->value > max_b.value)

@@ -45,7 +45,7 @@ void	cll_transfer_top(t_cll *src, t_cll *dest)
 	cll_push(dest, cll_pop(src));
 }
 
-void		cll_print(t_cll *cll, int fd)
+void	cll_print(t_cll *cll, int fd)
 {
 	t_cll_elem	*elem;
 	int			i;

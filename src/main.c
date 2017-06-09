@@ -12,23 +12,32 @@
 
 #include "ft.h"
 #include "my_malloc.h"
-#include "test.h"
+#include "push_swap.h"
 
 int	main(int argc, char **argv)
 {
-	//test_circular_linked_list();
-	//test_two_stacks(argc - 1, argv + 1);
 	t_allocated		*a_list;
 	t_two_stacks	*stacks;
 	int				cleaned;
+	int				verbose;
 
+	verbose = 0;
+	if (argc >= 1 && ft_strcmp(argv[1], "-v") == 0)
+	{
+		verbose = 1;
+		argc -= 1;
+		argv += 1;
+	}
 	my_malloc_init(&a_list);
 	stacks = two_stacks_from_strings(&a_list, argc - 1, argv + 1);
-	solve_big(&a_list, stacks);
+	if (stacks && !two_stacks_is_sorted(stacks))
+		solve_big(&a_list, stacks);
 	print_solution(stacks, 1);
 	two_stacks_free(&a_list, &stacks);
 	cleaned = my_malloc_cleanup(&a_list);
-	//ft_putnbr_fd(cleaned, 1);
-	//ft_putstr_fd(" freed pointer(s).\n", 1);
+	if (verbose)
+		ft_putnbr_fd(cleaned, 1);
+	if (verbose)
+		ft_putstr_fd(" freed pointer(s).\n", 1);
 	return (0);
 }

@@ -11,7 +11,6 @@ NAME_CHECKER = checker
 
 SRC_UTIL = my_malloc.c ft.c circular_linked_list.c circular_linked_list_op.c \
 			slist.c get_next_line.c
-SRC_TEST = test_circular_linked_list.c test_op.c test_two_stacks.c
 SRC_STACKS = two_stacks.c two_stacks_do_op.c \
         two_stacks_op_s.c two_stacks_op_p.c \
 		two_stacks_op_r.c two_stacks_op_rr.c \
@@ -37,7 +36,7 @@ $(NAME_CHECKER): $(OBJ_CHECKER)
 	$(CC) $(CFLAGS) -c $^ $(IFLAGS)
 
 clean:
-	rm -f $(OBJ)
+	rm -f $(OBJ) $(OBJ_CHECKER)
 
 fclean: clean
 	rm -f $(NAME)
