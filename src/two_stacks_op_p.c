@@ -13,14 +13,24 @@
 #include "push_swap.h"
 #include "circular_linked_list.h"
 
-void	op_pa(t_two_stacks *stacks)
+int	op_pa(t_two_stacks *stacks)
 {
 	if (stacks->b->n > 0)
+	{
 		cll_push(stacks->a, cll_pop(stacks->b));
+		return (0);
+	}
+	else
+		return (1);
 }
 
-void	op_pb(t_two_stacks *stacks)
+int	op_pb(t_two_stacks *stacks)
 {
 	if (stacks->a->n > 0)
+	{
 		cll_push(stacks->b, cll_pop(stacks->a));
+		return (0);
+	}
+	else
+		return (1);
 }

@@ -31,7 +31,12 @@ int	main(int argc, char **argv)
 	my_malloc_init(&a_list);
 	stacks = two_stacks_from_strings(&a_list, argc - 1, argv + 1);
 	if (stacks && !two_stacks_is_sorted(stacks))
-		solve_big(&a_list, stacks);
+	{
+		if (stacks->a->n <= 6)
+			solve_bruteforce(&a_list, stacks);
+		else
+			solve_big(&a_list, stacks);
+	}
 	print_solution(stacks, 1);
 	two_stacks_free(&a_list, &stacks);
 	cleaned = my_malloc_cleanup(&a_list);

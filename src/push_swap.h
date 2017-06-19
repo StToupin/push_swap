@@ -28,10 +28,11 @@ typedef struct	s_two_stacks
 
 typedef struct	s_op_assoc
 {
-	t_op	op;
 	char	*name;
-	void	(*f)(t_two_stacks *stacks);
-	void	(*rev_f)(t_two_stacks *stacks);
+	t_op	op;
+	int		(*f)(t_two_stacks *stacks);
+	t_op	rev_op;
+	int		(*rev_f)(t_two_stacks *stacks);
 }				t_op_assoc;
 
 /*
@@ -48,32 +49,32 @@ int				two_stacks_is_sorted(t_two_stacks *stacks);
 ** From two_stacks_op_s.c
 */
 
-void			op_sa(t_two_stacks *stacks);
-void			op_sb(t_two_stacks *stacks);
-void			op_ss(t_two_stacks *stacks);
+int				op_sa(t_two_stacks *stacks);
+int				op_sb(t_two_stacks *stacks);
+int				op_ss(t_two_stacks *stacks);
 
 /*
 ** From two_stacks_op_p.c
 */
 
-void			op_pa(t_two_stacks *stacks);
-void			op_pb(t_two_stacks *stacks);
+int				op_pa(t_two_stacks *stacks);
+int				op_pb(t_two_stacks *stacks);
 
 /*
 ** From two_stacks_op_r.c
 */
 
-void			op_ra(t_two_stacks *stacks);
-void			op_rb(t_two_stacks *stacks);
-void			op_rr(t_two_stacks *stacks);
+int				op_ra(t_two_stacks *stacks);
+int				op_rb(t_two_stacks *stacks);
+int				op_rr(t_two_stacks *stacks);
 
 /*
 ** From two_stacks_op_rr.c
 */
 
-void			op_rra(t_two_stacks *stacks);
-void			op_rrb(t_two_stacks *stacks);
-void			op_rrr(t_two_stacks *stacks);
+int				op_rra(t_two_stacks *stacks);
+int				op_rrb(t_two_stacks *stacks);
+int				op_rrr(t_two_stacks *stacks);
 
 /*
 ** From two_stacks_do_op.c
@@ -84,6 +85,7 @@ int				stacks_do_op_assoc(t_allocated **a_list, t_two_stacks *stacks,
 														t_op_assoc *op_assoc);
 int				stacks_do_op(t_allocated **a_list, t_two_stacks *stacks,
 																	t_op op);
+int				stacks_undo_op(t_allocated **a_list, t_two_stacks *stacks);
 
 /*
 ** From print_solution.c
@@ -115,5 +117,11 @@ t_route			find_best_route(t_two_stacks *stacks, int i_a, int val_a);
 */
 
 void			solve_big(t_allocated **a_list, t_two_stacks *stacks);
+
+/*
+** From bruteforce.c
+*/
+
+int				solve_bruteforce(t_allocated **a_list, t_two_stacks *stacks);
 
 #endif

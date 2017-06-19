@@ -13,18 +13,36 @@
 #include "push_swap.h"
 #include "circular_linked_list.h"
 
-void	op_ra(t_two_stacks *stacks)
+int	op_ra(t_two_stacks *stacks)
 {
-	cll_rotate(stacks->a);
+	if (stacks->a->n >= 2)
+	{
+		cll_rotate(stacks->a);
+		return (0);
+	}
+	else
+		return (1);
 }
 
-void	op_rb(t_two_stacks *stacks)
+int	op_rb(t_two_stacks *stacks)
 {
-	cll_rotate(stacks->b);
+	if (stacks->b->n >= 2)
+	{
+		cll_rotate(stacks->b);
+		return (0);
+	}
+	else
+		return (1);
 }
 
-void	op_rr(t_two_stacks *stacks)
+int	op_rr(t_two_stacks *stacks)
 {
-	cll_rotate(stacks->a);
-	cll_rotate(stacks->b);
+	if (stacks->a->n >= 2 && stacks->b->n >= 2)
+	{
+		cll_rotate(stacks->a);
+		cll_rotate(stacks->b);
+		return (0);
+	}
+	else
+		return (1);
 }
