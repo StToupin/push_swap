@@ -11,9 +11,9 @@
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include "get_next_byte.h"
 #include "push_swap.h"
 #include "my_malloc.h"
-#include "get_next_line.h"
 #include "ft.h"
 
 static int	do_op(t_allocated **a_list, t_two_stacks *stacks, char *op_name,
@@ -40,32 +40,41 @@ static int	do_op(t_allocated **a_list, t_two_stacks *stacks, char *op_name,
 				ft_putstr_fd(": ", 1);
 			if (verbose)
 				two_stacks_print(stacks, 1);
+			break ;
 		}
 	}
 	return (0);
 }
 
+static void	get_next_op(t_openfile *of, char op[4])
+{
+	char	dummy;
+
+	get_next_byte(of, op);
+	get_next_byte(of, op + 1);
+	get_next_byte(of, op + 2);
+	op[3] = '\0';
+	if (op[2] == '\n')
+		op[2] = '\0';
+	else
+		get_next_byte(of, &dummy);
+}
+
 static int	execute_program(t_allocated **a_list, t_two_stacks *stacks,
 																	int verbose)
 {
-	char	*line;
-	int		len;
+	t_openfile	of;
+	char		op[4];
 
-	(void)stacks;
-	while (get_next_line(a_list, STDIN_FILENO, &line, &len) == 1)
+	get_next_byte_init(&of, STDIN_FILENO);
+	while (1)
 	{
-		if (len == 0)
+		get_next_op(&of, op);
+		if (of.buf_size == 0)
 			break ;
-		else if (len == 2 || len == 3)
-			do_op(a_list, stacks, line, verbose);
-		else
-		{
-			my_malloc_free(a_list, line);
+		if (do_op(a_list, stacks, op, verbose) == 1)
 			return (1);
-		}
-		my_malloc_free(a_list, line);
 	}
-	my_malloc_free(a_list, line);
 	return (0);
 }
 

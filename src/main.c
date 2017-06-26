@@ -14,15 +14,25 @@
 #include "my_malloc.h"
 #include "push_swap.h"
 
-int	main(int argc, char **argv)
+void	clean(t_allocated *a_list, int verbose)
+{
+	int				cleaned;
+
+	cleaned = my_malloc_cleanup(a_list);
+	if (verbose)
+		ft_putnbr_fd(cleaned, 1);
+	if (verbose)
+		ft_putstr_fd(" freed pointer(s).\n", 1);
+}
+
+int		main(int argc, char **argv)
 {
 	t_allocated		*a_list;
 	t_two_stacks	*stacks;
-	int				cleaned;
 	int				verbose;
 
 	verbose = 0;
-	if (argc >= 1 && ft_strcmp(argv[1], "-v") == 0)
+	if (argc > 1 && ft_strcmp(argv[1], "-v") == 0)
 	{
 		verbose = 1;
 		argc -= 1;
@@ -39,10 +49,6 @@ int	main(int argc, char **argv)
 	}
 	print_solution(stacks, 1);
 	two_stacks_free(&a_list, &stacks);
-	cleaned = my_malloc_cleanup(&a_list);
-	if (verbose)
-		ft_putnbr_fd(cleaned, 1);
-	if (verbose)
-		ft_putstr_fd(" freed pointer(s).\n", 1);
+	clean(&a_list, verbose);
 	return (0);
 }

@@ -10,7 +10,7 @@ NAME = push_swap
 NAME_CHECKER = checker
 
 SRC_UTIL = my_malloc.c ft.c circular_linked_list.c circular_linked_list_op.c \
-			slist.c get_next_line.c
+			slist.c get_next_byte.c
 SRC_STACKS = two_stacks.c two_stacks_do_op.c \
         two_stacks_op_s.c two_stacks_op_p.c \
 		two_stacks_op_r.c two_stacks_op_rr.c \

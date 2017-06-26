@@ -72,7 +72,7 @@ int			stacks_do_op(t_allocated **a_list, t_two_stacks *stacks, t_op op)
 	return (stacks_do_op_assoc(a_list, stacks, &op_assoc));
 }
 
-int		stacks_undo_op(t_allocated **a_list, t_two_stacks *stacks)
+int			stacks_undo_op(t_allocated **a_list, t_two_stacks *stacks)
 {
 	t_op		op;
 	t_cll_elem	*elem;

@@ -12,7 +12,8 @@
 
 #include "push_swap.h"
 
-static int	backtracking(t_allocated **a_list, t_two_stacks *stacks, int depth, int max_depth, t_op last_op)
+static int	backtracking(t_allocated **a_list, t_two_stacks *stacks,
+							int depth, int max_depth, t_op last_op)
 {
 	int			i;
 	t_op_assoc	op_assoc;
@@ -26,7 +27,7 @@ static int	backtracking(t_allocated **a_list, t_two_stacks *stacks, int depth, i
 	i = 0;
 	while (1)
 	{
-		op_assoc = get_op_assoc(i);
+		op_assoc = get_op_assoc(i++);
 		if (op_assoc.op == O_UNK)
 			break ;
 		if (op_assoc.rev_op != last_op)
@@ -34,13 +35,13 @@ static int	backtracking(t_allocated **a_list, t_two_stacks *stacks, int depth, i
 			err = stacks_do_op(a_list, stacks, op_assoc.op);
 			if (err == 0)
 			{
-				found = backtracking(a_list, stacks, depth + 1, max_depth, op_assoc.op);
+				found = backtracking(a_list, stacks, depth + 1, max_depth,
+																op_assoc.op);
 				if (found)
 					return (1);
 				stacks_undo_op(a_list, stacks);
 			}
 		}
-		i++;
 	}
 	return (0);
 }
