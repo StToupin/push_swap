@@ -17,8 +17,6 @@ static int	backtracking(t_two_stacks *stacks, int depth, int max_depth,
 {
 	int			i;
 	t_op_assoc	op_assoc;
-	int			found;
-	int			err;
 
 	if (depth == max_depth)
 		return (0);
@@ -32,12 +30,9 @@ static int	backtracking(t_two_stacks *stacks, int depth, int max_depth,
 			break ;
 		if (op_assoc.rev_op != last_op)
 		{
-			err = stacks_do_op(stacks, op_assoc.op);
-			if (err == 0)
+			if (stacks_do_op(stacks, op_assoc.op) == 0)
 			{
-				found = backtracking(stacks, depth + 1, max_depth,
-																op_assoc.op);
-				if (found)
+				if (backtracking(stacks, depth + 1, max_depth, op_assoc.op))
 					return (1);
 				stacks_undo_op(stacks);
 			}

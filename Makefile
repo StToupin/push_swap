@@ -39,7 +39,7 @@ clean:
 	rm -f $(OBJ) $(OBJ_CHECKER)
 
 fclean: clean
-	rm -f $(NAME)
+	rm -f $(NAME) $(NAME_CHECKER)
 
 re: fclean all
 

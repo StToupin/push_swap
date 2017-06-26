@@ -18,7 +18,6 @@ int		main(int argc, char **argv)
 {
 	t_two_stacks	stacks;
 	int				verbose;
-	int				err;
 
 	verbose = 0;
 	if (argc > 1 && ft_strcmp(argv[1], "-v") == 0)
@@ -27,8 +26,7 @@ int		main(int argc, char **argv)
 		argc -= 1;
 		argv += 1;
 	}
-	err = two_stacks_from_strings(&stacks, argc - 1, argv + 1, verbose);
-	if (err == 1)
+	if (two_stacks_from_strings(&stacks, argc - 1, argv + 1, verbose) == 1)
 	{
 		ft_putstr_fd("Error\n", 2);
 		return (1);
