@@ -13,6 +13,7 @@
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 # include "circular_linked_list.h"
+# include "my_malloc.h"
 
 typedef enum	e_op
 {
@@ -24,6 +25,7 @@ typedef struct	s_two_stacks
 	t_cll		*a;
 	t_cll		*b;
 	t_cll		*op;
+	t_allocated	*a_list;
 }				t_two_stacks;
 
 typedef struct	s_op_assoc
@@ -39,9 +41,10 @@ typedef struct	s_op_assoc
 ** From two_stacks.c
 */
 
-void			two_stacks_free(t_allocated **a_list, t_two_stacks **stacks);
-t_two_stacks	*two_stacks_create(t_allocated **a_list);
-t_two_stacks	*two_stacks_from_strings(t_allocated **a_list, int n, char **s);
+void			two_stacks_free(t_two_stacks *stacks, int verbose);
+void			two_stacks_create(t_two_stacks *stacks, int verbose);
+int				two_stacks_from_strings(t_two_stacks *stacks, int n, char **s,
+																int verbose);
 void			two_stacks_print(t_two_stacks *stacks, int fd);
 int				two_stacks_is_sorted(t_two_stacks *stacks);
 
@@ -81,11 +84,9 @@ int				op_rrr(t_two_stacks *stacks);
 */
 
 t_op_assoc		get_op_assoc(int i);
-int				stacks_do_op_assoc(t_allocated **a_list, t_two_stacks *stacks,
-														t_op_assoc *op_assoc);
-int				stacks_do_op(t_allocated **a_list, t_two_stacks *stacks,
-																	t_op op);
-int				stacks_undo_op(t_allocated **a_list, t_two_stacks *stacks);
+int				stacks_do_op_assoc(t_two_stacks *stacks, t_op_assoc *op_assoc);
+int				stacks_do_op(t_two_stacks *stacks, t_op op);
+int				stacks_undo_op(t_two_stacks *stacks);
 
 /*
 ** From print_solution.c
@@ -116,12 +117,12 @@ t_route			find_best_route(t_two_stacks *stacks, int i_a, int val_a);
 ** From algo2.c
 */
 
-void			solve_big(t_allocated **a_list, t_two_stacks *stacks);
+void			solve_big(t_two_stacks *stacks);
 
 /*
 ** From bruteforce.c
 */
 
-int				solve_bruteforce(t_allocated **a_list, t_two_stacks *stacks);
+int				solve_bruteforce(t_two_stacks *stacks);
 
 #endif

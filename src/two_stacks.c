@@ -15,60 +15,53 @@
 #include "my_malloc.h"
 #include "ft.h"
 
-void			two_stacks_free(t_allocated **a_list, t_two_stacks **stacks)
+void			two_stacks_free(t_two_stacks *stacks, int verbose)
 {
-	if (*stacks == NULL)
+	int cleaned;
+
+	if (stacks == NULL)
 		return ;
-	cll_free(a_list, &((*stacks)->a));
-	cll_free(a_list, &((*stacks)->b));
-	cll_free(a_list, &((*stacks)->op));
-	my_malloc_free(a_list, *stacks);
-	*stacks = NULL;
+	cll_free(&(stacks->a_list), &(stacks->a));
+	cll_free(&(stacks->a_list), &(stacks->b));
+	cll_free(&(stacks->a_list), &(stacks->op));
+	cleaned = my_malloc_cleanup(&(stacks->a_list));
+	if (verbose)
+		ft_putnbr_fd(cleaned, 1);
+	if (verbose)
+		ft_putstr_fd(" freed pointer(s).\n", 1);
 }
 
-t_two_stacks	*two_stacks_create(t_allocated **a_list)
+void			two_stacks_create(t_two_stacks *stacks, int verbose)
 {
-	t_two_stacks	*stacks;
-
-	stacks = (t_two_stacks*)my_malloc(a_list, sizeof(t_two_stacks));
-	if (stacks)
-	{
-		stacks->a = cll_create(a_list);
-		stacks->b = cll_create(a_list);
-		stacks->op = cll_create(a_list);
-		if (!stacks->a || !stacks->b || !stacks->op)
-			two_stacks_free(a_list, &stacks);
-	}
-	return (stacks);
+	my_malloc_init(&(stacks->a_list));
+	stacks->a = cll_create(&(stacks->a_list));
+	stacks->b = cll_create(&(stacks->a_list));
+	stacks->op = cll_create(&(stacks->a_list));
+	if (!stacks->a || !stacks->b || !stacks->op)
+		two_stacks_free(stacks, verbose);
 }
 
-t_two_stacks	*two_stacks_from_strings(t_allocated **a_list, int n, char **s)
+int				two_stacks_from_strings(t_two_stacks *stacks, int n, char **s,
+																	int verbose)
 {
-	t_two_stacks	*stacks;
 	t_cll_elem		*elem;
 	int				i;
 	int				value;
 
-	stacks = two_stacks_create(a_list);
-	if (stacks)
+	two_stacks_create(stacks, verbose);
+	i = -1;
+	while (++i < n)
 	{
-		i = -1;
-		while (++i < n)
+		if (ft_str_to_int(s[n - i - 1], &value))
+			return (1);
+		if (!(elem = cll_elem_create(&(stacks->a_list), value)))
 		{
-			if (ft_str_to_int(s[n - i - 1], &value))
-			{
-				two_stacks_free(a_list, &stacks);
-				break ;
-			}
-			if (!(elem = cll_elem_create(a_list, value)))
-			{
-				two_stacks_free(a_list, &stacks);
-				break ;
-			}
-			cll_push(stacks->a, elem);
+			two_stacks_free(stacks, verbose);
+			return (1);
 		}
+		cll_push(stacks->a, elem);
 	}
-	return (stacks);
+	return (0);
 }
 
 void			two_stacks_print(t_two_stacks *stacks, int fd)

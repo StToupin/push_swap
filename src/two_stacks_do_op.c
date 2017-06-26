@@ -32,8 +32,7 @@ t_op_assoc	get_op_assoc(int i)
 	return (op_assoc[i]);
 }
 
-int			stacks_do_op_assoc(t_allocated **a_list, t_two_stacks *stacks,
-														t_op_assoc *op_assoc)
+int			stacks_do_op_assoc(t_two_stacks *stacks, t_op_assoc *op_assoc)
 {
 	t_cll_elem	*elem;
 	int			err;
@@ -41,7 +40,7 @@ int			stacks_do_op_assoc(t_allocated **a_list, t_two_stacks *stacks,
 	err = (*(op_assoc->f))(stacks);
 	if (err == 0)
 	{
-		elem = cll_elem_create(a_list, op_assoc->op);
+		elem = cll_elem_create(&(stacks->a_list), op_assoc->op);
 		if (elem)
 		{
 			cll_push(stacks->op, elem);
@@ -54,7 +53,7 @@ int			stacks_do_op_assoc(t_allocated **a_list, t_two_stacks *stacks,
 		return (1);
 }
 
-int			stacks_do_op(t_allocated **a_list, t_two_stacks *stacks, t_op op)
+int			stacks_do_op(t_two_stacks *stacks, t_op op)
 {
 	int			i;
 	t_op_assoc	op_assoc;
@@ -69,10 +68,10 @@ int			stacks_do_op(t_allocated **a_list, t_two_stacks *stacks, t_op op)
 			break ;
 		i++;
 	}
-	return (stacks_do_op_assoc(a_list, stacks, &op_assoc));
+	return (stacks_do_op_assoc(stacks, &op_assoc));
 }
 
-int			stacks_undo_op(t_allocated **a_list, t_two_stacks *stacks)
+int			stacks_undo_op(t_two_stacks *stacks)
 {
 	t_op		op;
 	t_cll_elem	*elem;
@@ -83,7 +82,7 @@ int			stacks_undo_op(t_allocated **a_list, t_two_stacks *stacks)
 	if (!elem)
 		return (1);
 	op = elem->value;
-	my_malloc_free(a_list, elem);
+	my_malloc_free(&(stacks->a_list), elem);
 	i = 0;
 	while (1)
 	{

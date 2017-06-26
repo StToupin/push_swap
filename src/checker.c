@@ -16,8 +16,7 @@
 #include "my_malloc.h"
 #include "ft.h"
 
-static int	do_op(t_allocated **a_list, t_two_stacks *stacks, char *op_name,
-																	int verbose)
+static int	do_op(t_two_stacks *stacks, char *op_name, int verbose)
 {
 	int			n_op;
 	t_op_assoc	op_assoc;
@@ -34,7 +33,7 @@ static int	do_op(t_allocated **a_list, t_two_stacks *stacks, char *op_name,
 				ft_putstr_fd("Doing ", 1);
 			if (verbose)
 				ft_putstr_fd(op_name, 1);
-			if (stacks_do_op_assoc(a_list, stacks, &op_assoc))
+			if (stacks_do_op_assoc(stacks, &op_assoc))
 				return (1);
 			if (verbose)
 				ft_putstr_fd(": ", 1);
@@ -60,8 +59,7 @@ static void	get_next_op(t_openfile *of, char op[4])
 		get_next_byte(of, &dummy);
 }
 
-static int	execute_program(t_allocated **a_list, t_two_stacks *stacks,
-																	int verbose)
+static int	execute_program(t_two_stacks *stacks, int verbose)
 {
 	t_openfile	of;
 	char		op[4];
@@ -72,35 +70,34 @@ static int	execute_program(t_allocated **a_list, t_two_stacks *stacks,
 		get_next_op(&of, op);
 		if (of.buf_size == 0)
 			break ;
-		if (do_op(a_list, stacks, op, verbose) == 1)
+		if (do_op(stacks, op, verbose) == 1)
 			return (1);
 	}
 	return (0);
 }
 
-static void	push_swap(t_allocated **a_list, int argc, char **argv, int verbose)
+static void	push_swap(int argc, char **argv, int verbose)
 {
-	t_two_stacks	*stacks;
+	t_two_stacks	stacks;
+	int				err;
 
-	stacks = two_stacks_from_strings(a_list, argc - 1, argv + 1);
-	if (stacks)
+	err = two_stacks_from_strings(&stacks, argc - 1, argv + 1, verbose);
+	if (err == 0)
 	{
-		if (execute_program(a_list, stacks, verbose))
-			ft_putstr_fd("ERROR\n", 2);
-		else if (two_stacks_is_sorted(stacks))
+		if (execute_program(&stacks, verbose))
+			ft_putstr_fd("Error\n", 2);
+		else if (two_stacks_is_sorted(&stacks))
 			ft_putstr_fd("OK\n", 1);
 		else
 			ft_putstr_fd("KO\n", 1);
 	}
 	else
-		ft_putstr_fd("ERROR\n", 2);
-	two_stacks_free(a_list, &stacks);
+		ft_putstr_fd("Error\n", 2);
+	two_stacks_free(&stacks, verbose);
 }
 
 int			main(int argc, char **argv)
 {
-	t_allocated		*a_list;
-	int				cleaned;
 	int				verbose;
 
 	verbose = 0;
@@ -110,12 +107,6 @@ int			main(int argc, char **argv)
 		argc -= 1;
 		argv += 1;
 	}
-	my_malloc_init(&a_list);
-	push_swap(&a_list, argc, argv, verbose);
-	cleaned = my_malloc_cleanup(&a_list);
-	if (verbose)
-		ft_putnbr_fd(cleaned, 1);
-	if (verbose)
-		ft_putstr_fd(" freed pointer(s).\n", 1);
+	push_swap(argc, argv, verbose);
 	return (0);
 }

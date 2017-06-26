@@ -14,22 +14,11 @@
 #include "my_malloc.h"
 #include "push_swap.h"
 
-void	clean(t_allocated *a_list, int verbose)
-{
-	int				cleaned;
-
-	cleaned = my_malloc_cleanup(a_list);
-	if (verbose)
-		ft_putnbr_fd(cleaned, 1);
-	if (verbose)
-		ft_putstr_fd(" freed pointer(s).\n", 1);
-}
-
 int		main(int argc, char **argv)
 {
-	t_allocated		*a_list;
-	t_two_stacks	*stacks;
+	t_two_stacks	stacks;
 	int				verbose;
+	int				err;
 
 	verbose = 0;
 	if (argc > 1 && ft_strcmp(argv[1], "-v") == 0)
@@ -38,17 +27,20 @@ int		main(int argc, char **argv)
 		argc -= 1;
 		argv += 1;
 	}
-	my_malloc_init(&a_list);
-	stacks = two_stacks_from_strings(&a_list, argc - 1, argv + 1);
-	if (stacks && !two_stacks_is_sorted(stacks))
+	err = two_stacks_from_strings(&stacks, argc - 1, argv + 1, verbose);
+	if (err == 1)
 	{
-		if (stacks->a->n <= 6)
-			solve_bruteforce(&a_list, stacks);
-		else
-			solve_big(&a_list, stacks);
+		ft_putstr_fd("Error\n", 2);
+		return (1);
 	}
-	print_solution(stacks, 1);
-	two_stacks_free(&a_list, &stacks);
-	clean(&a_list, verbose);
+	if (!two_stacks_is_sorted(&stacks))
+	{
+		if (stacks.a->n <= 6)
+			solve_bruteforce(&stacks);
+		else
+			solve_big(&stacks);
+	}
+	print_solution(&stacks, 1);
+	two_stacks_free(&stacks, verbose);
 	return (0);
 }
