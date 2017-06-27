@@ -37,7 +37,6 @@ t_cll			*cll_create(t_allocated **a_list);
 void			cll_push(t_cll *cll, t_cll_elem *elem);
 t_cll_elem		*cll_pop(t_cll *cll);
 void			cll_free(t_allocated **a_list, t_cll **cll);
-t_cll			*cll_clone(t_allocated **a_list, t_cll *src);
 
 /*
 ** From circular_linked_list_op.c

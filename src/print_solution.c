@@ -13,6 +13,20 @@
 #include "ft.h"
 #include "push_swap.h"
 
+void		two_stacks_print(t_two_stacks *stacks, int fd)
+{
+	if (stacks == NULL)
+		ft_putstr_fd("(null)\n", 1);
+	else
+	{
+		ft_putstr_fd("A: ", fd);
+		cll_print(stacks->a, fd);
+		ft_putstr_fd(", B: ", fd);
+		cll_print(stacks->b, fd);
+		ft_putstr_fd("\n", fd);
+	}
+}
+
 static void	print_op(t_op op, int fd)
 {
 	t_op_assoc	op_assoc;

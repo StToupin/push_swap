@@ -15,7 +15,7 @@
 #include "my_malloc.h"
 #include "ft.h"
 
-void			two_stacks_free(t_two_stacks *stacks, int verbose)
+void		two_stacks_free(t_two_stacks *stacks, int verbose)
 {
 	int cleaned;
 
@@ -31,7 +31,7 @@ void			two_stacks_free(t_two_stacks *stacks, int verbose)
 		ft_putstr_fd(" freed pointer(s).\n", 1);
 }
 
-void			two_stacks_create(t_two_stacks *stacks, int verbose)
+void		two_stacks_create(t_two_stacks *stacks, int verbose)
 {
 	my_malloc_init(&(stacks->a_list));
 	stacks->a = cll_create(&(stacks->a_list));
@@ -41,7 +41,28 @@ void			two_stacks_create(t_two_stacks *stacks, int verbose)
 		two_stacks_free(stacks, verbose);
 }
 
-int				two_stacks_from_strings(t_two_stacks *stacks, int n, char **s,
+static int	cll_list_contains(t_cll *cll, int number)
+{
+	t_cll_elem	*elem;
+	int			i;
+
+	if (cll->n > 0)
+	{
+		elem = cll->top;
+		elem = cll->top->up;
+		i = 0;
+		while (i < cll->n)
+		{
+			if (elem->value == number)
+				return (1);
+			elem = elem->up;
+			i++;
+		}
+	}
+	return (0);
+}
+
+int			two_stacks_from_strings(t_two_stacks *stacks, int n, char **s,
 																	int verbose)
 {
 	t_cll_elem		*elem;
@@ -54,6 +75,8 @@ int				two_stacks_from_strings(t_two_stacks *stacks, int n, char **s,
 	{
 		if (ft_str_to_int(s[n - i - 1], &value))
 			return (1);
+		if (cll_list_contains(stacks->a, value))
+			return (1);
 		if (!(elem = cll_elem_create(&(stacks->a_list), value)))
 		{
 			two_stacks_free(stacks, verbose);
@@ -64,21 +87,7 @@ int				two_stacks_from_strings(t_two_stacks *stacks, int n, char **s,
 	return (0);
 }
 
-void			two_stacks_print(t_two_stacks *stacks, int fd)
-{
-	if (stacks == NULL)
-		ft_putstr_fd("(null)\n", 1);
-	else
-	{
-		ft_putstr_fd("A: ", fd);
-		cll_print(stacks->a, fd);
-		ft_putstr_fd(", B: ", fd);
-		cll_print(stacks->b, fd);
-		ft_putstr_fd("\n", fd);
-	}
-}
-
-int				two_stacks_is_sorted(t_two_stacks *stacks)
+int			two_stacks_is_sorted(t_two_stacks *stacks)
 {
 	t_cll_elem	*elem;
 	int			i;

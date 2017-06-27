@@ -45,7 +45,6 @@ void			two_stacks_free(t_two_stacks *stacks, int verbose);
 void			two_stacks_create(t_two_stacks *stacks, int verbose);
 int				two_stacks_from_strings(t_two_stacks *stacks, int n, char **s,
 																int verbose);
-void			two_stacks_print(t_two_stacks *stacks, int fd);
 int				two_stacks_is_sorted(t_two_stacks *stacks);
 
 /*
@@ -92,6 +91,7 @@ int				stacks_undo_op(t_two_stacks *stacks);
 ** From print_solution.c
 */
 
+void			two_stacks_print(t_two_stacks *stacks, int fd);
 void			print_solution(t_two_stacks	*stacks, int fd);
 
 /*
