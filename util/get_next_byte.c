@@ -31,7 +31,10 @@ int				get_next_byte(t_openfile *of, char *byte)
 			return (-1);
 		of->buf_pos = of->buf;
 		if (of->buf_size == 0)
+		{
+			of->eof = 1;
 			return (0);
+		}
 	}
 	*byte = *(of->buf_pos);
 	of->buf_pos++;

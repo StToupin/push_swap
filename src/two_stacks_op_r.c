@@ -16,23 +16,15 @@
 int	op_ra(t_two_stacks *stacks)
 {
 	if (stacks->a->n >= 2)
-	{
 		cll_rotate(stacks->a);
-		return (0);
-	}
-	else
-		return (1);
+	return (0);
 }
 
 int	op_rb(t_two_stacks *stacks)
 {
 	if (stacks->b->n >= 2)
-	{
 		cll_rotate(stacks->b);
-		return (0);
-	}
-	else
-		return (1);
+	return (0);
 }
 
 int	op_rr(t_two_stacks *stacks)
@@ -41,8 +33,6 @@ int	op_rr(t_two_stacks *stacks)
 	{
 		cll_rotate(stacks->a);
 		cll_rotate(stacks->b);
-		return (0);
 	}
-	else
-		return (1);
+	return (0);
 }

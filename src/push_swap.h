@@ -14,6 +14,7 @@
 # define PUSH_SWAP_H
 # include "circular_linked_list.h"
 # include "my_malloc.h"
+# include "get_next_byte.h"
 
 typedef enum	e_op
 {
@@ -124,5 +125,11 @@ void			solve_big(t_two_stacks *stacks);
 */
 
 int				solve_bruteforce(t_two_stacks *stacks);
+
+/*
+** From get_next_op.c
+*/
+
+int				get_next_op(t_openfile *of, char op[4]);
 
 #endif

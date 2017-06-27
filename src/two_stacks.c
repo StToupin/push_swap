@@ -28,7 +28,7 @@ void		two_stacks_free(t_two_stacks *stacks, int verbose)
 	if (verbose)
 		ft_putnbr_fd(cleaned, 1);
 	if (verbose)
-		ft_putstr_fd(" freed pointer(s).\n", 1);
+		ft_putstr_fd(" pointer(s) left.\n", 1);
 }
 
 void		two_stacks_create(t_two_stacks *stacks, int verbose)

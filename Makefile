@@ -17,7 +17,7 @@ SRC_STACKS = two_stacks.c two_stacks_do_op.c \
 		print_solution.c
 
 SRC = $(SRC_UTIL) $(SRC_TEST) $(SRC_STACKS) algo.c algo2.c bruteforce.c main.c
-SRC_CHECKER = $(SRC_UTIL) $(SRC_TEST) $(SRC_STACKS) checker.c
+SRC_CHECKER = $(SRC_UTIL) $(SRC_TEST) $(SRC_STACKS) get_next_op.c checker.c
 OBJ = $(SRC:.c=.o)
 OBJ_CHECKER = $(SRC_CHECKER:.c=.o)
 
