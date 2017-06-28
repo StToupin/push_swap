@@ -18,6 +18,7 @@ void			get_next_byte_init(t_openfile *of, int fd)
 	of->fd = fd;
 	of->buf_size = 0;
 	of->buf_pos = of->buf;
+	of->eof = 0;
 }
 
 int				get_next_byte(t_openfile *of, char *byte)

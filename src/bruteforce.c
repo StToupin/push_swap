@@ -28,14 +28,13 @@ static int	backtracking(t_two_stacks *stacks, int depth, int max_depth,
 		op_assoc = get_op_assoc(i++);
 		if (op_assoc.op == O_UNK)
 			break ;
-		if (op_assoc.rev_op != last_op)
+		if (op_assoc.rev_op == last_op)
+			continue ;
+		if (stacks_do_op(stacks, op_assoc.op) == 0)
 		{
-			if (stacks_do_op(stacks, op_assoc.op) == 0)
-			{
-				if (backtracking(stacks, depth + 1, max_depth, op_assoc.op))
-					return (1);
-				stacks_undo_op(stacks);
-			}
+			if (backtracking(stacks, depth + 1, max_depth, op_assoc.op))
+				return (1);
+			stacks_undo_op(stacks);
 		}
 	}
 	return (0);

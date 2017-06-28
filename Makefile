@@ -1,7 +1,7 @@
 CC = gcc
 
 ifeq ($(DEBUG),yes)
-    CFLAGS = -Wall -Wextra -O0 -g
+    CFLAGS = -Wall -Wextra -O0 -g -fsanitize=address
 else
     CFLAGS = -Wall -Wextra -O2
 endif
