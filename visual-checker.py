@@ -1,4 +1,5 @@
 import pygame
+import pygame.gfxdraw
 
 class Circular_linked_list(list):
 	def swap_top(self):
@@ -89,10 +90,14 @@ class Canvas:
 		pygame.draw.lines(self.screen, (0, 0, 0), False, [p1, p2], 1)
 	
 	def circle(self, x, y, r):
-		if (int(r * self.width) > 0):
+		r = int(r * self.width)
+		if (r > 0):
 			p = self.conv_coord(x, y)
-			pygame.draw.circle(self.screen, (0, 0, 0),
-								p, int(r * self.width), 1)
+			if (r <= 1):
+				pygame.gfxdraw.pixel(self.screen, p[0], p[1], (1, 1, 1))
+			else:
+				pygame.gfxdraw.filled_circle(self.screen, p[0], p[1], r, (1, 1, 1))
+				pygame.gfxdraw.aacircle(self.screen, p[0], p[1], r, (1, 1, 1))
 	
 	def show(self):
 		pygame.display.update()
