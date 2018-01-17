@@ -23,14 +23,14 @@ class Two_stacks:
 		self.a = Circular_linked_list(list)
 		self.b = Circular_linked_list()
 		if verbose:
-			print "Initial state: %s" % str(self)
+			print("Initial state: %s" % str(self))
 	
 	def __str__(self):
 		return "A = %s, B = %s" % (str(self.a), str(self.b))
 	
 	def do_op(self, op, verbose=False):
 		if verbose:
-			print "Applying %s: %s" % (op, str(self))
+			print("Applying %s: %s" % (op, str(self)))
 		if op == "sa":
 			self.a.swap_top()
 		elif op == "sb":
@@ -71,7 +71,7 @@ class Two_stacks:
 class Canvas:
 	def __init__(self, width, height, title):
 		pygame.init()
-		self.screen = pygame.display.set_mode((width, height))
+		self.screen = pygame.display.set_mode((width, height), pygame.HWSURFACE | pygame.DOUBLEBUF)
 		self.width = width
 		self.height = height
 		self.clear()
@@ -100,7 +100,7 @@ class Canvas:
 				pygame.gfxdraw.aacircle(self.screen, p[0], p[1], r, (1, 1, 1))
 	
 	def show(self):
-		pygame.display.update()
+		pygame.display.update(self.screen.get_rect())
 
 def repr_cll(cll):
 	from math import pi, cos, sin
@@ -144,6 +144,7 @@ def draw(canvas, ts):
 
 if __name__ == "__main__":
 	from sys import argv, stdin, exit
+	from time import sleep
 
 	if len(argv) > 1 and argv[1] == "-v":
 		verbose = True
@@ -157,7 +158,10 @@ if __name__ == "__main__":
 	ts = Two_stacks(list_of_numbers, verbose)
 	canvas = Canvas(1920, 1080, 'push_swap checker')
 	for op in stdin:
+		for event in pygame.event.get():
+			pass
 		op = op.rstrip('\n')
 		ts.do_op(op.rstrip('\n'), verbose)
 		draw(canvas, ts)
-	print ("OK" if ts.is_sorted() else "KO")
+	print("OK" if ts.is_sorted() else "KO")
+	pygame.quit()
